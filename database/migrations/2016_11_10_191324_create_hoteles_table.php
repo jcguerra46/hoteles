@@ -17,7 +17,7 @@ class CreateHotelesTable extends Migration
             $table->increments('id');
             $table->string('name', 100);
             $table->integer('starts');
-            $table->decimal('price', 5, 2);
+            $table->decimal('price', 16, 2);
             $table->timestamps();
         });
     }
