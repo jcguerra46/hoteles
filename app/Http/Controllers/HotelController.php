@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use DB;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -13,8 +15,15 @@ class HotelController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        $hoteles = \App\Models\Hotel::get();
+    {   
+        // Sin cache
+        //$hoteles = \App\Models\Hotel::get();
+
+        // Con cache Retrieve & Store en manual Laravel 5.3
+        $hoteles = Cache::remember('hoteles', 1, function () {
+            return DB::table('hoteles')->get();
+        });
+
         return response()->json([
                 "msg" => "Success",
                 "hoteles" => $hoteles->toArray()
